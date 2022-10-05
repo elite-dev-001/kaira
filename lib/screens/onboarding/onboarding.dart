@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kaira/screens/auth/category.dart';
 import 'package:kaira/screens/auth/login.dart';
-import 'package:kaira/screens/auth/sign_up.dart';
+// import 'package:kaira/screens/auth/sign_up.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _OnBoardingState extends State<OnBoarding> {
     currentIndex == 0 || currentIndex == 1
         ? setState(() => currentIndex++)
         : Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const SignUp()));
+            context, MaterialPageRoute(builder: (context) => const MyCategory()));
   }
 
   void leftBtn() {

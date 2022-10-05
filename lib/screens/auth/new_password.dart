@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:kaira/screens/auth/reset.dart';
-import 'package:kaira/screens/auth/sign_up.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+
+
+
+class NewPassword extends StatefulWidget {
+  const NewPassword({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<NewPassword> createState() => _NewPasswordState();
 }
 
-class _LoginState extends State<Login> {
+class _NewPasswordState extends State<NewPassword> {
   bool isObscure = true;
+  bool isObscure2 = true;
 
   void toggleEye() => setState(() => isObscure = !isObscure);
-
+  void toggleEye2() => setState(() => isObscure2 = !isObscure2);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
           padding:
-              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 87.31),
+          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 87.31),
           child: ListView(
             children: [
               Image.asset(
-                'images/logo_icon.png',
-                height: 61,
+                'images/Frame.png',
+                height: 61.75,
               ),
               const Padding(
-                padding: EdgeInsets.only(top: 35.0),
+                padding: EdgeInsets.only(top: 38.05),
                 child: Text(
-                  'Log in',
+                  'Create new password',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                 ),
@@ -39,38 +41,15 @@ class _LoginState extends State<Login> {
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Welcome back!',
+                  children: const [
+                    Text(
+                      'Please set a new and strong password',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14,
                           color: Color(0XFF78789D),
                           fontWeight: FontWeight.w400),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Don\'t have an account?',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0XFF78789D),
-                              fontWeight: FontWeight.w400),
-                        ),
-                        TextButton(
-                            onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUp())),
-                            child: const Text(
-                              'Sign up',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0XFF17B7BD),
-                                  fontWeight: FontWeight.w500),
-                            ))
-                      ],
-                    )
                   ],
                 ),
               ),
@@ -90,60 +69,16 @@ class _LoginState extends State<Login> {
                       children: [
                         Container(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
+                            const EdgeInsets.symmetric(horizontal: 0.0),
                             // height: 50.0,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Padding(
                                   padding:
-                                      EdgeInsets.only(top: 23.0, bottom: 7),
+                                  EdgeInsets.only(top: 25.91, bottom: 7),
                                   child: Text(
-                                    'Phone number',
-                                    style: TextStyle(
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0XFF1F1F39)),
-                                  ),
-                                ),
-                                Stack(
-                                  alignment: AlignmentDirectional.centerStart,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Image.asset(
-                                        'images/phone.png',
-                                        height: 20.1,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.only(
-                                              left: 40.0, top: 14),
-                                          hintText: '+234 84 878 798',
-                                          hintStyle: TextStyle(
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color(0XFF38385E))),
-                                      keyboardType: TextInputType.phone,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Container(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
-                            // height: 50.0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 25.91, bottom: 7),
-                                  child: Text(
-                                    'Password',
+                                    'New password',
                                     style: TextStyle(
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
@@ -168,18 +103,18 @@ class _LoginState extends State<Login> {
                                             onPressed: () => toggleEye(),
                                             icon: isObscure
                                                 ? const Icon(
-                                                    Icons.visibility_outlined,
-                                                    color: Color(0XFFB8B8D2),
-                                                  )
+                                              Icons.visibility_outlined,
+                                              color: Color(0XFFB8B8D2),
+                                            )
                                                 : const Icon(
-                                                    Icons
-                                                        .visibility_off_outlined,
-                                                    color: Color(0XFFB8B8D2),
-                                                  ),
+                                              Icons
+                                                  .visibility_off_outlined,
+                                              color: Color(0XFFB8B8D2),
+                                            ),
                                           ),
                                           hintText: '***********'),
                                       keyboardType:
-                                          TextInputType.visiblePassword,
+                                      TextInputType.visiblePassword,
                                       obscureText: isObscure,
                                       obscuringCharacter: '*',
                                     ),
@@ -187,28 +122,62 @@ class _LoginState extends State<Login> {
                                 ),
                               ],
                             )),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 20.91, bottom: 25),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ResetPassword())),
-                                child: const Text(
-                                  'Forget your password?',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: Color(0XFF17B7BD)),
+                        Container(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 0.0),
+                            // height: 50.0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding:
+                                  EdgeInsets.only(top: 25.91, bottom: 7),
+                                  child: Text(
+                                    'Retype your password',
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0XFF1F1F39)),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                Stack(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Image.asset(
+                                        'images/Frame.png',
+                                        height: 20.1,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                          contentPadding: const EdgeInsets.only(
+                                              left: 40.0, top: 20),
+                                          suffixIcon: IconButton(
+                                            onPressed: () => toggleEye2(),
+                                            icon: isObscure2
+                                                ? const Icon(
+                                              Icons.visibility_outlined,
+                                              color: Color(0XFFB8B8D2),
+                                            )
+                                                : const Icon(
+                                              Icons
+                                                  .visibility_off_outlined,
+                                              color: Color(0XFFB8B8D2),
+                                            ),
+                                          ),
+                                          hintText: 'Confirm password'),
+                                      keyboardType:
+                                      TextInputType.visiblePassword,
+                                      obscureText: isObscure2,
+                                      obscuringCharacter: '*',
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                        const SizedBox(height: 25.91,),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 24.0),
                           child: SizedBox(
@@ -222,9 +191,9 @@ class _LoginState extends State<Login> {
                                   shape: MaterialStateProperty.all(
                                       RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(14)))),
+                                          BorderRadius.circular(14)))),
                               child: const Text(
-                                'Log in',
+                                'Confirm',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w600),
                               ),
