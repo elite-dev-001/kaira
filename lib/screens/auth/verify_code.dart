@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaira/screens/homepage/home.dart';
 
 class VerifyCode extends StatefulWidget {
   const VerifyCode({Key? key}) : super(key: key);
@@ -61,18 +62,16 @@ class _VerifyCodeState extends State<VerifyCode> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => const Home())),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          const Color(0XFF17B7BD)),
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(14)))),
+                      backgroundColor:
+                          MaterialStateProperty.all(const Color(0XFF17B7BD)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14)))),
                   child: const Text(
                     'Confirm',
-                    style: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
