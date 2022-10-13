@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaira/screens/auth/reset.dart';
 import 'package:kaira/screens/auth/sign_up.dart';
+import 'package:kaira/screens/homepage/home.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -215,7 +216,10 @@ class _LoginState extends State<Login> {
                             width: MediaQuery.of(context).size.width,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) => const Home())),
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       const Color(0XFF17B7BD)),

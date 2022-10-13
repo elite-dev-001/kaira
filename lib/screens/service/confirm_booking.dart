@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:kaira/screens/service/service_success.dart';
 
 class ConfirmBooking extends StatefulWidget {
   const ConfirmBooking({Key? key}) : super(key: key);
@@ -38,10 +38,13 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
                   width: 155,
                   height: 46,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => const ServiceSuccess())),
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all(const Color(0xff31aab7)),
+                            MaterialStateProperty.all(const Color(0xff31aab7)),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12)))),
                     child: const Text('Book Now'),
@@ -116,37 +119,54 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Booking detail', style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: Color(0xff31aab7)
-                          ),),
+                          const Text(
+                            'Booking detail',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: Color(0xff31aab7)),
+                          ),
                           Column(
                             children: [
-                              const Icon(Icons.edit_outlined, size: 15, color: Color(0xff31aab7),),
+                              const Icon(
+                                Icons.edit_outlined,
+                                size: 15,
+                                color: Color(0xff31aab7),
+                              ),
                               Container(
                                 width: 13.12,
                                 decoration: BoxDecoration(
-                                  border: Border.all(width: 1.43, color: const Color(0xff31aab7))
-                                ),
+                                    border: Border.all(
+                                        width: 1.43,
+                                        color: const Color(0xff31aab7))),
                               )
                             ],
                           )
                         ],
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       confirm('Working time', 'Monday - 22 Mar 2021\n12:30 PM'),
-                      const SizedBox(height: 20,),
-                      confirm('Location', 'Room 123, Brooklyn St, Kepler District'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      confirm(
+                          'Location', 'Room 123, Brooklyn St, Kepler District'),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       confirm('Note', 'No note added'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       confirm('Domestic worker', 'Janet Kim'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       confirm('Promotion code', 'No code added')
                     ],
-                  )
-              ),
+                  )),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 25.0),
@@ -167,33 +187,45 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Payment detail', style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: Color(0xff31aab7)
-                          ),),
+                          const Text(
+                            'Payment detail',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: Color(0xff31aab7)),
+                          ),
                           Column(
                             children: [
-                              const Icon(Icons.edit_outlined, size: 15, color: Color(0xff31aab7),),
+                              const Icon(
+                                Icons.edit_outlined,
+                                size: 15,
+                                color: Color(0xff31aab7),
+                              ),
                               Container(
                                 width: 13.12,
                                 decoration: BoxDecoration(
-                                    border: Border.all(width: 1.43, color: const Color(0xff31aab7))
-                                ),
+                                    border: Border.all(
+                                        width: 1.43,
+                                        color: const Color(0xff31aab7))),
                               )
                             ],
                           )
                         ],
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       confirm('Payment method', 'Credit card'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       confirm('Cost', '\$12.50/1 hour')
                     ],
-                  )
-              ),
+                  )),
             ),
-            const SizedBox(height: 40,),
+            const SizedBox(
+              height: 40,
+            ),
           ],
         ),
       ),
@@ -207,23 +239,25 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 6.0),
-            child: Text(text1, style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
-              color: Color(0xff38385e)
-            ),),
+            child: Text(
+              text1,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: Color(0xff38385e)),
+            ),
           ),
-          Text(text2, style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: Color(0xff78789d)
-          ),),
+          Text(
+            text2,
+            style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: Color(0xff78789d)),
+          ),
         ],
       ),
     );
   }
-
-
 
   Widget progress() {
     return Row(
@@ -239,7 +273,7 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
           width: 45,
           height: 0,
           decoration: BoxDecoration(
-            // color: Color(0xfff3a8a2),
+              // color: Color(0xfff3a8a2),
               border: Border.all(color: const Color(0xff363b39))),
         ),
         Container(
@@ -253,7 +287,7 @@ class _ConfirmBookingState extends State<ConfirmBooking> {
           width: 45,
           height: 0,
           decoration: BoxDecoration(
-            // color: Color(0xfff3a8a2),
+              // color: Color(0xfff3a8a2),
               border: Border.all(color: const Color(0xff363b39))),
         ),
         Container(

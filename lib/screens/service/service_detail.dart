@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaira/screens/service/pay_booking.dart';
+import 'package:kaira/screens/worker/domestic.dart';
 
 class ServiceDetail extends StatefulWidget {
   const ServiceDetail({Key? key}) : super(key: key);
@@ -432,12 +433,16 @@ class _ServiceDetailState extends State<ServiceDetail> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 18.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 18.0, horizontal: 13),
               child: SizedBox(
-                width: 96,
+                width: MediaQuery.of(context).size.width,
                 height: 30,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => const DomesticWorker())),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(const Color(0xfff4f3fd)),
