@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:kaira/screens/auth/reset.dart';
 import 'package:kaira/screens/auth/sign_up.dart';
@@ -12,9 +13,66 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isObscure = true;
+  bool loading = false;
+  String err = '';
 
   void toggleEye() => setState(() => isObscure = !isObscure);
 
+  void setErr(String error) => setState(() => err = error);
+
+  void setLoading() => setState(() => loading = !loading);
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
+  void login() async {
+    setErr('');
+
+    if (phone.text.length == 11 && password.text.length >= 8) {
+      setLoading();
+      final data = {"phoneNumber": phone.text, "password": password.text};
+
+      Response response = await Dio().post(
+          'https://kaira-api.onrender.com/api/v1/auth/login',
+          data: data,
+          options: Options(contentType: 'application/json'));
+      if (response.statusCode == 200) {
+        setLoading();
+        setErr('');
+        goHome();
+      } else {
+        setErr('Invalid Credentials');
+      }
+    } else {
+      setErr('All fields are required');
+    }
+  }
+
+  ///////////
+
+  void goHome() => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => const Home()));
+
+  //////////////
+
+  void nameChanged(String text) {
+    nameValidate(text);
+  }
+
+  String? nameValidate(String? name) {
+    return name!.isEmpty ? 'The name field is required' : null;
+  }
+
+  //Name Validation//
+
+  void phoneChanged(String number) => phoneValidate(number);
+
+  String? phoneValidate(String? number) => number!.isEmpty
+      ? 'Phone Number is required'
+      : number.length != 11
+          ? 'Phone Number must be 11 digits'
+          : null;
+
+  //PhoneNumber Validation
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +133,11 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
+              Text(
+                err,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 25.0),
                 child: Container(
@@ -118,6 +181,11 @@ class _LoginState extends State<Login> {
                                       ),
                                     ),
                                     TextFormField(
+                                      controller: phone,
+                                      onChanged: nameChanged,
+                                      validator: nameValidate,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: const InputDecoration(
                                           contentPadding: EdgeInsets.only(
                                               left: 40.0, top: 14),
@@ -162,6 +230,11 @@ class _LoginState extends State<Login> {
                                       ),
                                     ),
                                     TextFormField(
+                                      controller: password,
+                                      onChanged: nameChanged,
+                                      validator: nameValidate,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: InputDecoration(
                                           contentPadding: const EdgeInsets.only(
                                               left: 40.0, top: 20),
@@ -216,10 +289,7 @@ class _LoginState extends State<Login> {
                             width: MediaQuery.of(context).size.width,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (builder) => const Home())),
+                              onPressed: login,
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       const Color(0XFF17B7BD)),
@@ -227,11 +297,16 @@ class _LoginState extends State<Login> {
                                       RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(14)))),
-                              child: const Text(
-                                'Log in',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w600),
-                              ),
+                              child: loading
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : const Text(
+                                      'Log in',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                             ),
                           ),
                         )

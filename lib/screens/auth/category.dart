@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kaira/artisan/screens/sign_up.dart';
+import 'package:kaira/artisan/screens/start_work.dart';
+
 // import 'package:kaira/screens/auth/login.dart';
 import 'package:kaira/screens/auth/sign_up.dart';
 
@@ -11,23 +14,26 @@ class MyCategory extends StatefulWidget {
 
 class _MyCategoryState extends State<MyCategory> {
   bool selected = false;
+  int? index;
 
-  void select(int index) {
+  void select(int i) {
     setState(() {
       for (var element in catData) {
         element['tapped'] = false;
       }
-      catData[index]['tapped'] = true;
+      catData[i]['tapped'] = true;
       selected = true;
+      index = i;
     });
   }
 
-  void signUp(){
-    if(selected){
+  void signUp() {
+    if (selected) {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const SignUp()));
+              builder: (context) =>
+                  index == 0 ? const ArtisanSignUp() : index == 1 ? const SignUp() : const StartWork() ));
     }
   }
 

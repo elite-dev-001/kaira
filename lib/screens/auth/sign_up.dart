@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:kaira/screens/auth/verify_code.dart';
 
@@ -11,12 +12,62 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isObscure = true;
   bool isObscure2 = true;
+  bool loading = false;
+  String err = '';
+
+  void setErr(String error) => setState(() => err = error);
+
+  void setLoading() => setState(() => loading = !loading);
 
   void toggleEye() => setState(() => isObscure = !isObscure);
 
   void toggleEye2() => setState(() => isObscure2 = !isObscure2);
 
-  void sendOtp() => showDialog(
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirm = TextEditingController();
+
+  void signUp() async {
+    setErr('');
+
+    if (name.text.isNotEmpty &&
+        phone.text.length == 11 &&
+        password.text.length >= 8 &&
+        confirm.text == password.text) {
+      setLoading();
+      final data = {
+        "name": name.text,
+        "phoneNumber": phone.text,
+        "password": password.text,
+        "confirmPassword": confirm.text
+      };
+
+      debugPrint(data.toString());
+
+      Response response = await Dio().post(
+          'https://kaira-api.onrender.com/api/v1/auth/',
+          data: data,
+          options: Options(contentType: "application/json"));
+      if (response.statusCode == 200) {
+        setLoading();
+        setErr('');
+        final String otp = response.data['data']['otp'].toString();
+        final String id = response.data['data']['user']['_id'].toString();
+        // debugPrint(response.data['data']['otp'].toString());
+        sendOtp(otp, id);
+        //
+      } else {
+        setLoading();
+        setErr('Something went wrong. Could not create new user');
+        //
+      }
+    } else {
+      setErr('All fields are required');
+    }
+  }
+
+  void sendOtp(String otp, id) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
             title: const Text(
@@ -27,9 +78,9 @@ class _SignUpState extends State<SignUp> {
                   color: Color(0XFF282F39),
                   fontStyle: FontStyle.normal),
             ),
-            content: const Text(
-              'We will send verification code to +91 98765 43210',
-              style: TextStyle(
+            content: Text(
+              'We will send verification code to ${phone.text}',
+              style: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
                   color: Color(0XFF7F7F7F),
@@ -50,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                         color: Color(0XFF31AAB7)),
                   )),
               TextButton(
-                  onPressed: () => verifyCode(),
+                  onPressed: () => verifyCode(otp, id),
                   child: const Text(
                     'SEND OTP',
                     style: TextStyle(
@@ -62,8 +113,48 @@ class _SignUpState extends State<SignUp> {
             ],
           ));
 
-  void verifyCode() => Navigator.push(
-      context, MaterialPageRoute(builder: (builder) => const VerifyCode()));
+  void verifyCode(String otp, String id) => Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (builder) => VerifyCode(
+                otp: otp,
+                phone: phone.text,
+            id: id,
+              )));
+
+//Name Validation//
+  void nameChanged(String text) {
+    nameValidate(text);
+  }
+
+  String? nameValidate(String? name) {
+    return name!.isEmpty ? 'The name field is required' : null;
+  }
+
+  //Name Validation//
+
+  void phoneChanged(String number) => phoneValidate(number);
+
+  String? phoneValidate(String? number) => number!.isEmpty
+      ? 'Phone Number is required'
+      : number.length != 11
+          ? 'Phone Number must be 11 digits'
+          : null;
+
+  //PhoneNumber Validation
+
+  void passWordChanged(String password) => passwordValidate(password);
+
+  String? passwordValidate(String? password) => password!.length < 8
+      ? 'Password length must be at least 8 characters long'
+      : null;
+
+  //Password validation
+
+  void confirmChanged(String password) => confirmValidate(password);
+
+  String? confirmValidate(String? confirm) =>
+      confirm != password.text ? 'Password does not match' : null;
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +170,17 @@ class _SignUpState extends State<SignUp> {
                 height: 61,
               ),
               const Padding(
-                padding: EdgeInsets.only(top: 35.0),
+                padding: EdgeInsets.only(top: 35.0, bottom: 10),
                 child: Text(
                   'Sign up',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                 ),
+              ),
+              Text(
+                err,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
@@ -140,6 +236,11 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     ),
                                     TextFormField(
+                                      controller: name,
+                                      onChanged: nameChanged,
+                                      validator: nameValidate,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: const InputDecoration(
                                           contentPadding: EdgeInsets.only(
                                               left: 40.0, top: 14),
@@ -184,6 +285,11 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     ),
                                     TextFormField(
+                                      controller: phone,
+                                      onChanged: phoneChanged,
+                                      validator: phoneValidate,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: const InputDecoration(
                                           contentPadding: EdgeInsets.only(
                                               left: 40.0, top: 14),
@@ -228,6 +334,11 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     ),
                                     TextFormField(
+                                      controller: password,
+                                      onChanged: passWordChanged,
+                                      validator: passwordValidate,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: InputDecoration(
                                           contentPadding: const EdgeInsets.only(
                                               left: 40.0, top: 20),
@@ -283,6 +394,11 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     ),
                                     TextFormField(
+                                      controller: confirm,
+                                      onChanged: confirmChanged,
+                                      validator: confirmValidate,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       decoration: InputDecoration(
                                           contentPadding: const EdgeInsets.only(
                                               left: 40.0, top: 20),
@@ -318,7 +434,7 @@ class _SignUpState extends State<SignUp> {
                             width: MediaQuery.of(context).size.width,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () => sendOtp(),
+                              onPressed: signUp,
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
                                       const Color(0XFF17B7BD)),
@@ -326,11 +442,16 @@ class _SignUpState extends State<SignUp> {
                                       RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(14)))),
-                              child: const Text(
-                                'Sign up',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w600),
-                              ),
+                              child: loading
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : const Text(
+                                      'Sign up',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                             ),
                           ),
                         )
